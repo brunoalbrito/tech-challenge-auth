@@ -12,6 +12,7 @@ public class LambdaHandler implements RequestHandler<APIGatewayV2HTTPEvent, APIG
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
         APIGatewayV2HTTPResponse response = new APIGatewayV2HTTPResponse();
+        response.setStatusCode(200);
         response.setBody(event.getBody() + "new event test");
 
         return response;
