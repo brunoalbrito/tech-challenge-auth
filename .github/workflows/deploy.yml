@@ -22,9 +22,9 @@ jobs:
 
       - name: Set up AWS credentials for main branch
         if: github.ref == 'refs/heads/main'
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::102716851056:role/git-action
+          role-to-assume: ${{ secrets.ASSUME_ROLE_PRODUCTION }}
           role-session-name: GitHubActions
           aws-region: us-west-2
 
