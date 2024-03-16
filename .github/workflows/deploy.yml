@@ -47,8 +47,6 @@ jobs:
 
       - name: Find and Deploy Lambdas
         run: |
-          for dir in $(find . -type f -name function.zip -exec dirname {} \; | sort -u); do
-            echo "Deploying Lambda in $dir"
-            parent_dir=$(basename $(dirname "$dir"))
-            aws lambda update-function-code --function-name "${parent_dir}" --zip-file fileb://"$dir/function.zip"
+          for file in $(find . -name "*.zip"); do
+              aws lambda update-function-code --function-name tech-challenge-auth --zip-file fileb://$file
           done
