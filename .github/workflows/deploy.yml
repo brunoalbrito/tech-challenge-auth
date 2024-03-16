@@ -1,0 +1,55 @@
+name: Deploy to AWS
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+
+on:
+  push:
+    branches:
+      - main
+      - homolog
+
+env:
+  JAVA_VERSION: 17
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v1
+
+      - name: Set up AWS credentials for main branch
+        if: github.ref == 'refs/heads/main'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.ASSUME_ROLE_PRODUCTION }}
+          role-session-name: GitHubActions
+          aws-region: us-east-2
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run build with Gradle Wrapper
+        run: ./gradlew clean build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
+
+      - name: Find and Deploy Lambdas
+        run: |
+          for dir in $(find . -type f -name function.zip -exec dirname {} \; | sort -u); do
+            echo "Deploying Lambda in $dir"
+            parent_dir=$(basename $(dirname "$dir"))
+            aws lambda update-function-code --function-name "${parent_dir}" --zip-file fileb://"$dir/function.zip"
+          done
