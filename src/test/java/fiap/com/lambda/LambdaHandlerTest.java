@@ -15,12 +15,12 @@ class LambdaHandlerTest {
         given()
                 .contentType("application/json")
                 .accept("application/json")
-                .body("{\"body\": \"Hello Stu\"}")
+                .body("{\"path\":\"/health\"}")
                 .when()
                 .post()
                 .then()
                 .statusCode(200)
-                .body(containsString("Hello Stu"));
+                .body(containsString("OK"));
     }
 
 }
