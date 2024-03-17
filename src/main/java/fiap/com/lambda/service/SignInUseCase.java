@@ -2,17 +2,22 @@ package fiap.com.lambda.service;
 
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClient;
+import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
 import com.amazonaws.services.cognitoidp.model.InitiateAuthRequest;
 import com.amazonaws.services.cognitoidp.model.NotAuthorizedException;
 import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.Map;
 
+@ApplicationScoped
 public class SignInUseCase {
 
+    @Inject
+    private AWSCognitoIdentityProvider cognitoClient;
 
-    public String signIn(String cpf, String password) {
+    public AuthenticationResultType signIn(String cpf, String password) {
         try {
 
             AWSCognitoIdentityProvider cognitoClient = AWSCognitoIdentityProviderClient.builder()
@@ -27,7 +32,7 @@ public class SignInUseCase {
                             "PASSWORD", password
                     ));
 
-            return cognitoClient.initiateAuth(initiateAuthRequest).getAuthenticationResult().getIdToken();
+            return cognitoClient.initiateAuth(initiateAuthRequest).getAuthenticationResult();
         } catch (UserNotFoundException | NotAuthorizedException e) {
             // Handle authentication failures
             throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
