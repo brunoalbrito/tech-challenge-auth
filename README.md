@@ -48,6 +48,12 @@ response:
   }
 ```
 
+<p align="center">
+    <img src="./assets/auth-flow.png">
+<p>
+
+ 
+
 # Como executar em dev mode parar testes locais
 
 ```shell script
