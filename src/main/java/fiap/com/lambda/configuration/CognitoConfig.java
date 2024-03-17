@@ -7,11 +7,9 @@ import jakarta.inject.Singleton;
 
 public class CognitoConfig {
 
-    @Singleton
-    @Produces
-    public AWSCognitoIdentityProvider cognitoClient() {
+    public static AWSCognitoIdentityProvider cognitoClient() {
         return AWSCognitoIdentityProviderClient.builder()
-                .withRegion("us-east-2")
+                .withRegion("us-west-2")
                 .build();
     }
 }

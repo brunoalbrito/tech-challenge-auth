@@ -6,23 +6,16 @@ import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
 import com.amazonaws.services.cognitoidp.model.InitiateAuthRequest;
 import com.amazonaws.services.cognitoidp.model.NotAuthorizedException;
 import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
+import fiap.com.lambda.configuration.CognitoConfig;
 
 import java.util.Map;
 
-@ApplicationScoped
 public class SignInUseCase {
-
-    @Inject
-    private AWSCognitoIdentityProvider cognitoClient;
 
     public AuthenticationResultType signIn(String cpf, String password) {
         try {
 
-            AWSCognitoIdentityProvider cognitoClient = AWSCognitoIdentityProviderClient.builder()
-                    .withRegion("us-west-2")
-                    .build();
+            AWSCognitoIdentityProvider cognitoClient = CognitoConfig.cognitoClient();
 
             InitiateAuthRequest initiateAuthRequest = new InitiateAuthRequest()
                     .withClientId("1rq3hk963u392u664a5is9j1vv")
