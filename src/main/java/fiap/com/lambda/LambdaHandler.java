@@ -16,12 +16,6 @@ import jakarta.inject.Named;
 @Named("handler")
 public class LambdaHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-    @Inject
-    CreateUserUseCase createUserUseCase;
-
-    @Inject
-    SignInUseCase signInUseCase;
-
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
 
@@ -45,6 +39,7 @@ public class LambdaHandler implements RequestHandler<APIGatewayProxyRequestEvent
                             .withStatusCode(400);
                 }
 
+                CreateUserUseCase createUserUseCase = new CreateUserUseCase();
                 var response = createUserUseCase.createUser(authUser);
 
                 return new APIGatewayProxyResponseEvent()
@@ -61,6 +56,7 @@ public class LambdaHandler implements RequestHandler<APIGatewayProxyRequestEvent
             try {
                 AuthUser authUser = objectMapper.readValue(event.getBody(), AuthUser.class);
 
+                SignInUseCase signInUseCase = new SignInUseCase();
                 var response = signInUseCase.signIn(authUser.cpf(), authUser.password());
 
                 return new APIGatewayProxyResponseEvent()
