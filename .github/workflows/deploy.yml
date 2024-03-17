@@ -26,7 +26,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ASSUME_ROLE_PRODUCTION }}
           role-session-name: GitHubActions
-          aws-region: us-west-2
+          aws-region: us-east-1
 
       - name: Install AWS CLI
         run: |
