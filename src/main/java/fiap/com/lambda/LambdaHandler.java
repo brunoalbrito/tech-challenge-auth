@@ -12,6 +12,8 @@ import fiap.com.lambda.service.CreateUserUseCase;
 import fiap.com.lambda.service.SignInUseCase;
 import jakarta.inject.Named;
 
+import java.util.Map;
+
 @Named("handler")
 public class LambdaHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
@@ -51,15 +53,16 @@ public class LambdaHandler implements RequestHandler<APIGatewayProxyRequestEvent
             }
         }
 
-        if(event.getPath().contains("/auth/sign-in")) {
+        if (event.getPath().contains("/auth/sign-in")) {
             try {
                 AuthUser authUser = objectMapper.readValue(event.getBody(), AuthUser.class);
 
                 SignInUseCase signInUseCase = new SignInUseCase();
                 var response = signInUseCase.signIn(authUser.cpf(), authUser.password());
 
+
                 return new APIGatewayProxyResponseEvent()
-                        .withBody(objectMapper.writeValueAsString(response))
+                        .withBody(objectMapper.writeValueAsString(Map.of("token", response)))
                         .withStatusCode(200);
 
             } catch (JsonProcessingException e) {

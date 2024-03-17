@@ -1,63 +1,57 @@
-# tech-challenge-auth
+# Cognito Authentication - FIAP Pós TECH
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Repositório contém o lambda responsável por interagir com o AWS Cognito, criando usuários e realizando a operação de LoginIn para geração de token.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+# Stack e ferramentas
 
-## Running the application in dev mode
+* Quarkus
+* Java 17
+* Gradlew
+* AWS
+    * Lambda
+    * Cognito
+        * User pool
+        * App Client
+    * API Gateway
 
-You can run your application in dev mode that enables live coding using:
+# Descrição
+
+O serviço será exposto junto ao API Gateway com duas coras principais:
+
+* end point `/auth/sign-up` responsável pela criação dos usuários junto ao Cognito
+
+```
+POST https://<endpoint-prod>.execute-api.us-east-1.amazonaws.com/production/auth/sign-up
+payload: 
+  {
+    "cpf": "<cpf válido no formato XXXXXXXXXXX>",
+    "password": "senha valida com numero, letras maiusculas e minusculas. 
+}
+response:
+  200 OK
+  "Usuário criado com sucesso"
+```
+
+* end point `/auth/sign-in` responsável pela criação do token para autenticação durante as chamadas de API expostas pelo API Gateway
+
+```
+POST https://<endpoint-prod>.execute-api.us-east-1.amazonaws.com/production/auth/sign-up
+payload: 
+  {
+    "cpf": "<cpf válido no formato XXXXXXXXXXX>",
+    "password": "senha valida com numero, letras maiusculas e minusculas. 
+}
+response:
+  200 OK
+  {
+    "token": "<token JTW>"
+  }
+```
+
+# Como executar em dev mode parar testes locais
+
 ```shell script
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./gradlew build
-```
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./gradlew build -Dquarkus.package.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./gradlew build -Dquarkus.package.type=native
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./build/tech-challenge-auth-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/gradle-tooling.
-
-## Related Guides
-
-- AWS Lambda ([guide](https://quarkus.io/guides/aws-lambda)): Write AWS Lambda functions
-
-## Provided Code
-
-### Amazon Lambda Integration example
-
-This example contains a Quarkus Greeting Lambda ready for Amazon.
-
-[Related guide section...](https://quarkus.io/guides/amazon-lambda)
-
-> :warning: **INCOMPATIBLE WITH DEV MODE**: Amazon Lambda Binding is not compatible with dev mode yet!
-
+A infraestrutura do projeto foi criada via terraform. 

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class SignInUseCase {
 
-    public AuthenticationResultType signIn(String cpf, String password) {
+    public String signIn(String cpf, String password) {
         try {
 
             AWSCognitoIdentityProvider cognitoClient = CognitoConfig.cognitoClient();
@@ -25,7 +25,7 @@ public class SignInUseCase {
                             "PASSWORD", password
                     ));
 
-            return cognitoClient.initiateAuth(initiateAuthRequest).getAuthenticationResult();
+            return cognitoClient.initiateAuth(initiateAuthRequest).getAuthenticationResult().getIdToken();
         } catch (UserNotFoundException | NotAuthorizedException e) {
             // Handle authentication failures
             throw new RuntimeException("Authentication failed: " + e.getMessage(), e);
