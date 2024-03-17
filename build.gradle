@@ -12,6 +12,8 @@ dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-amazon-lambda'
     implementation 'io.quarkus:quarkus-arc'
+    implementation 'br.com.caelum.stella:caelum-stella-core:2.1.6'
+    implementation 'com.amazonaws:aws-java-sdk-cognitoidp:1.12.681'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }
