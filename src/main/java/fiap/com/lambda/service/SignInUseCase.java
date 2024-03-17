@@ -18,7 +18,7 @@ public class SignInUseCase {
             AWSCognitoIdentityProvider cognitoClient = CognitoConfig.cognitoClient();
 
             InitiateAuthRequest initiateAuthRequest = new InitiateAuthRequest()
-                    .withClientId("1rq3hk963u392u664a5is9j1vv")
+                    .withClientId("5s45djf8ocqd7tnlm110bjvfqj")
                     .withAuthFlow("USER_PASSWORD_AUTH")
                     .withAuthParameters(Map.of(
                             "USERNAME", cpf,
