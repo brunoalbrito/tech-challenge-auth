@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fiap.com.lambda.domain.AuthUser;
 import fiap.com.lambda.service.CreateUserUseCase;
 import fiap.com.lambda.service.SignInUseCase;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named("handler")

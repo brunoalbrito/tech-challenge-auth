@@ -9,7 +9,7 @@ import fiap.com.lambda.domain.AuthUser;
 import java.util.HashMap;
 import java.util.Map;
 public class CreateUserUseCase {
-    private static final String CLIENT_ID = "1rq3hk963u392u664a5is9j1vv";
+    private static final String CLIENT_ID = "5s45djf8ocqd7tnlm110bjvfqj";
 
     public Map<String, String> createUser(AuthUser authUser) {
 
