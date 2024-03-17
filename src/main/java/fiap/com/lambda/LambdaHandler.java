@@ -18,7 +18,7 @@ public class LambdaHandler implements RequestHandler<APIGatewayProxyRequestEvent
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
 
-        if (event.getPath().contains("health")) {
+        if (event.getPath().contains("/health")) {
             return new APIGatewayProxyResponseEvent()
                     .withBody("OK")
                     .withStatusCode(200);
